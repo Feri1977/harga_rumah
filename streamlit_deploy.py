@@ -2,16 +2,16 @@ import streamlit as st
 import joblib
 import pandas as pd
 
-# Load model
+# Muat model yang ada di folder yang sama
 model = joblib.load('gbr_model.joblib')
 
-st.title('Prediksi Model Machine Learning')
+st.title('Prediksi Model ML Lokal')
 
-@app.route('/predict', methods=['POST'])
-def predict():
-    data = request.json['data']  # Mengambil data dari request JSON
-    prediction = model.predict(data)  # Melakukan prediksi (harus dalam bentuk 2D array)
-    return jsonify({'prediction': prediction.tolist()})
- 
-if __name__ == '__main__':
-    app.run(debug=True)
+# Sesuaikan dengan nama kolom pada dataset Github Anda
+fitur_1 = st.number_input('Input Fitur 1')
+fitur_2 = st.number_input('Input Fitur 2')
+
+if st.button('Prediksi'):
+    input_data = pd.DataFrame({'Kolom1': [fitur_1], 'Kolom2': [fitur_2]})
+    hasil = model.predict(input_data)
+    st.success(f'Hasil Prediksi: {hasil[0]}')
